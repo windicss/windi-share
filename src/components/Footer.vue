@@ -11,6 +11,4 @@ const toggleLocales = () => {
 }
 </script>
 
-<template>
-  copyright windi css contributers
-</template>
+<template>copyright windi css contributers</template>

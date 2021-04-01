@@ -1,4 +1,3 @@
-
 <script lang="ts">
 import { userSession, handleLogout, handleOAuthLogin } from '~/logic'
 import { useRouter } from 'vue-router'

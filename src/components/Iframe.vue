@@ -4,70 +4,70 @@ export default {
 }
 </script>
 
-  <script setup lang="ts">
-  import { ref, defineProps, toRefs, watchEffect } from 'vue'
-  import { isDark } from '~/logic'
+<script setup lang="ts">
+import { ref, defineProps, toRefs, watchEffect } from 'vue'
+import { isDark } from '~/logic'
 
-  const props = defineProps({
-    css: {
-      default: '',
-    },
-    fixedCss: {
-      default: '',
-    },
-    classes: {
-      default: '',
-    },
-    heightOffset: {
-      default: 0,
-    },
-    html: {
-      default: 'Preview'
-    }
-  })
-
-  const isReady = ref(false)
-  const propRefs = toRefs(props)
-  const frame = ref<HTMLIFrameElement | null>(null)
-
-  for (const key of Object.keys(propRefs) as (keyof typeof propRefs)[]) {
-    watchEffect(() => {
-      setTimeout(resizeIframe, 100)
-      if (!isReady.value)
-        return
-      frame.value?.contentWindow?.postMessage(
-        JSON.stringify({
-          [key]: propRefs[key].value,
-        }),
-        location.origin,
-      )
-    })
+const props = defineProps({
+  css: {
+    default: '',
+  },
+  fixedCss: {
+    default: '',
+  },
+  classes: {
+    default: '',
+  },
+  heightOffset: {
+    default: 0,
+  },
+  html: {
+    default: 'Preview'
   }
+})
 
+const isReady = ref(false)
+const propRefs = toRefs(props)
+const frame = ref<HTMLIFrameElement | null>(null)
+
+for (const key of Object.keys(propRefs) as (keyof typeof propRefs)[]) {
   watchEffect(() => {
+    setTimeout(resizeIframe, 100)
     if (!isReady.value)
       return
-    frame.value?.contentWindow?.document?.querySelector('html')?.classList?.toggle('dark', isDark.value)
+    frame.value?.contentWindow?.postMessage(
+      JSON.stringify({
+        [key]: propRefs[key].value,
+      }),
+      location.origin,
+    )
   })
+}
 
-  function resizeIframe() {
-    if (!frame.value?.contentWindow)
-      return
+watchEffect(() => {
+  if (!isReady.value)
+    return
+  frame.value?.contentWindow?.document?.querySelector('html')?.classList?.toggle('dark', isDark.value)
+})
 
-    frame.value.style.height = '0'
-    frame.value.style.height = `${frame.value.contentWindow.document.documentElement?.scrollHeight + props.heightOffset}px`
+function resizeIframe() {
+  if (!frame.value?.contentWindow)
+    return
+
+  frame.value.style.height = '0'
+  frame.value.style.height = `${frame.value.contentWindow.document.documentElement?.scrollHeight + props.heightOffset}px`
+}
+
+function ready() {
+  isReady.value = true
+  if (typeof window !== 'undefined') {
+    const resizeObserver = new ResizeObserver(entries => {
+      resizeIframe()
+    })
+    resizeObserver.observe(frame.value!)
   }
-
-  function ready() {
-    isReady.value = true
-    if(typeof window !== 'undefined') {
-      const resizeObserver = new ResizeObserver(entries => {
-        resizeIframe()
-      })
-      resizeObserver.observe(frame.value!)
-    }
-  }
-  </script>
+}
+</script>
 
 <template>
   <client-only>
