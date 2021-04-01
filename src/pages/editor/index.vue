@@ -35,11 +35,11 @@ const {
 <template>
   <div v-if="userSession !== null" class="flex mb-2 w-full items-center justify-center">
     <button
-      v-if="userSession && userSession.user && userSession.user.id"
+      v-if="userSession && userSession.user && userSession.user.id != undefined"
       @click="addComponent({ html: htmlCode, css: styleCode, user_id: userSession?.user.id, user_name: userSession?.user.user_metadata.full_name })"
       class="rounded-full flex bg-gray-200 h-50px shadow px-6 justify-center items-center"
     >
-      <mdi-progress-upload />Upload new component
+      <mdi:progress-upload />Upload new component
     </button>
   </div>
   <div class="playground">
