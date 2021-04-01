@@ -41,8 +41,8 @@ onMounted(async () => {
         >
           <Iframe
             class="h-full w-full"
-            :html="ref(component.html)"
-            :css="ref(useWindiCSS(ref(component.html), ref(component.css), props.config).generatedCSS)"
+            :html="component.html"
+            :css="useWindiCSS(ref(component.html), ref(component.css), props.config).generatedCSS"
           />
         </div>
         <div
