@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { ref } from 'vue'
 import { Session, Provider } from '@supabase/gotrue-js/dist/main/lib/types'
-
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL as string,
   import.meta.env.VITE_SUPABASE_KEY as string

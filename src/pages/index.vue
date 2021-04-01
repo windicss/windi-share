@@ -4,14 +4,7 @@ import type { PropType } from 'vue'
 import type { Config } from 'windicss/types/interfaces'
 import { useWindiCSS, fetchComponents, allComponents } from '~/logic'
 
-// import { useRouter } from 'vue-router'
 // import { useI18n } from 'vue-i18n'
-// const name = ref('')
-// const router = useRouter()
-// // const go = () => {
-// //   if (name.value)
-// //     router.push(`/hi/${encodeURIComponent(name.value)}`)
-// // }
 // const { t } = useI18n()
 
 const props = defineProps({
