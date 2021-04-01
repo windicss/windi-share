@@ -42,9 +42,11 @@ type windiComponent = {
   id: string
   html: string
   css: string
+  user_name: string,
+  user_id: string,
+  added_at: string,
   likes: number,
-  username: string,
-  uploaded_at: string
+  banned: boolean
 }
 const allComponents = ref<windiComponent[]>([])
 /**
@@ -55,7 +57,9 @@ async function fetchComponents() {
     const { data: components, error } = await supabase
       .from('components')
       .select('*')
+      .neq('banned', true)
       .order('likes')
+
 
     if (error) {
       console.log('error', error)
@@ -74,11 +78,36 @@ async function fetchComponents() {
   }
 }
 
+/**
+ *  Add a new component to supabase
+ */
+async function addComponent(component: windiComponent): Promise<null | windiComponent> {
+  try {
+    const { data, error } = await supabase
+      .from('components')
+      .insert(component)
+      .single()
+
+    if (error) {
+      // alert(error.message)
+      console.error('There was an error inserting', error)
+      return null
+    }
+
+    console.log('created a new component')
+    return data
+  } catch (err) {
+    // alert('Error')
+    console.error('Unknown problem inserting to db', err)
+    return null
+  }
+}
 
 export {
   userSession,
   handleOAuthLogin,
   handleLogout,
   fetchComponents,
-  allComponents
+  allComponents,
+  addComponent
 }
