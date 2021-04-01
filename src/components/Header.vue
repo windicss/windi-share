@@ -1,5 +1,12 @@
 
-<script setup lang="ts">
+<script lang="ts">
+import { userSession, handleLogout, handleOAuthLogin } from '~/logic'
+export default {
+  setup() {
+
+    return { userSession, handleLogout, handleOAuthLogin }
+  }
+}
 // LOGIN & LOGOUT
 // secret id 14f2f11e64315c71f33537ecfabd65c82cb69750
 // const login = async () => {
@@ -17,7 +24,7 @@
 </script>
 
 <template>
-  <nav class="container flex py-4">
+  <nav class="container flex flex-row w-full py-4 justify-between">
     <RouterLink class="flex" to="/">
       <Logo class="m-auto -ml-1 text-2xl" />
       <div class="my-auto ml-2">
@@ -26,8 +33,21 @@
           <sup class="text-xs opacity-50 italic">Beta</sup>
         </div>
       </div>
-      <!-- <button @click="login">login</button>
-      <button @click="logout">logout</button>-->
     </RouterLink>
+
+    <div v-if="userSession === null">
+      <button
+        @click="handleOAuthLogin('github')"
+        class="rounded bg-gray-900 p-4 text-gray-50"
+      >GitHub Login</button>
+    </div>
+
+    <div v-else class="flex flex-row gap-3 justify-center items-center">
+      {{ userSession.user.user_metadata.full_name }}
+      <button
+        @click="handleLogout"
+        class="rounded bg-gray-400 p-4"
+      >Logout</button>
+    </div>
   </nav>
 </template>
