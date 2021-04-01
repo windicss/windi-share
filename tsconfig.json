@@ -2,8 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "ESNext",
-    "target": "es2016",
-    "lib": ["DOM", "ESNext"],
+    "target": "es2017",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "strict": true,
     "esModuleInterop": true,
     "incremental": true,
@@ -18,8 +21,13 @@
       "vite-plugin-vue-layouts/client"
     ],
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": [
+        "src/*"
+      ]
     }
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }
