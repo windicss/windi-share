@@ -2,7 +2,7 @@
 import { defineProps, ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import type { Config } from 'windicss/types/interfaces'
-import { useWindiCSS, fetchComponents, allComponents } from '~/logic'
+import { userSession, useWindiCSS, fetchComponents, allComponents } from '~/logic'
 
 // import { useI18n } from 'vue-i18n'
 // const { t } = useI18n()
@@ -19,6 +19,14 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div v-if="userSession !== null" class="flex mb-2 w-full items-center justify-center">
+    <router-link
+      to="/editor"
+      class="rounded-full flex bg-gray-200 h-50px shadow px-6 justify-center items-center"
+    >
+      <mdi-code-braces-box />Open editor
+    </router-link>
+  </div>
   <div class="grid gap-5 grid-cols-4 +sm:grid-cols-1 +md:grid-cols-2 +lg:grid-cols-3">
     <div
       v-for="component in allComponents"
@@ -42,11 +50,11 @@ onMounted(async () => {
       >
         <div>
           uploaded by
-          <span class="text-gray-500">{{ component.username }}</span>
+          <span class="text-gray-500">{{ component.user_name }}</span>
           at
           <span class="text-gray-500">
             {{
-              new Date(component.uploaded_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' })
+              new Date(component.added_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' })
             }}
           </span>
         </div>

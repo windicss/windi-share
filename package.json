@@ -12,6 +12,7 @@
     "@vueuse/head": "^0.5.1",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.2",
+    "splitpanes": "^3.0.4",
     "vue": "^3.0.10",
     "vue-i18n": "^9.0.0",
     "vue-router": "^4.0.5",

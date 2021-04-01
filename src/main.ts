@@ -23,5 +23,8 @@ export const createApp = ViteSSG(
  * Keeps track of if the user is logged in or out and will update userSession state accordingly.
  */
 supabase.auth.onAuthStateChange((event, session) => {
+  if (event == "SIGNED_OUT") {
+    window.location.replace("/")
+  }
   userSession.value = session
 })

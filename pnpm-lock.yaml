@@ -4,6 +4,7 @@ dependencies:
   '@vueuse/head': 0.5.1_vue@3.0.10
   nprogress: 0.2.0
   prism-theme-vars: 0.2.2
+  splitpanes: 3.0.4
   vue: 3.0.10
   vue-i18n: 9.0.0_vue@3.0.10
   vue-router: 4.0.5_vue@3.0.10
@@ -5412,6 +5413,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==
+  /splitpanes/3.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-KRaPtMDpu++OfvAzNQYE5U7WT5NoMA6l9B0buC4PhYoDILVLY8zN7Sp9cHXAgLhH59jI3lKzVoNqyf4OGRv7QQ==
   /sprintf-js/1.0.3:
     dev: true
     resolution:
@@ -6574,6 +6579,7 @@ specifiers:
   nprogress: ^0.2.0
   pnpm: ^5.18.9
   prism-theme-vars: ^0.2.2
+  splitpanes: ^3.0.4
   typescript: ^4.2.3
   vite: ^2.1.5
   vite-plugin-components: ^0.8.3

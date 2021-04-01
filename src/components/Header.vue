@@ -1,10 +1,15 @@
 
 <script lang="ts">
 import { userSession, handleLogout, handleOAuthLogin } from '~/logic'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const go = () => {
+  router.push(`/editor`)
+}
+
 export default {
   setup() {
-
-    return { userSession, handleLogout, handleOAuthLogin }
+    return { userSession, handleLogout, handleOAuthLogin, go }
   }
 }
 // LOGIN & LOGOUT
