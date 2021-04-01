@@ -47,7 +47,7 @@ onMounted(async () => {
         </div>
         <div
           id="lowerpart"
-          class="cursor-pointer flex-grow bg-gray-300 flex-1 p-2 place-self-stretch self-stretch justify-self-stretch hover:bg-gray-50 hover:ring"
+          class="flex-grow bg-gray-300 flex-1 p-2 place-self-stretch self-stretch justify-self-stretch"
         >
           <div>
             uploaded by
@@ -59,10 +59,21 @@ onMounted(async () => {
               }}
             </span>
           </div>
-          <span class="flex items-center justify-center select-none">
-            <ri:heart-2-fill class="mr-2 text-red-600" />
-            {{ component.likes }}
-          </span>
+          <div class="flex mt-2 gap-2">
+            <button
+              :disabled="(component.user_id !== userSession?.user.id)"
+              class="rounded flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
+            >
+              <mdi:puzzle-edit class="mr-2" />Edit
+            </button>
+            <button
+              :disabled="(userSession == null)"
+              class="rounded flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
+            >
+              <ri:heart-2-fill class="mr-2 text-red-600" />
+              {{ component.likes }}
+            </button>
+          </div>
         </div>
       </div>
     </ClientOnly>
