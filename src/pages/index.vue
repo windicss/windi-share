@@ -2,8 +2,7 @@
 import { defineProps, ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import type { Config } from 'windicss/types/interfaces'
-import { createClient } from '@supabase/supabase-js'
-import { useWindiCSS } from '~/logic'
+import { useWindiCSS, fetchComponents, allComponents } from '~/logic'
 
 // import { useRouter } from 'vue-router'
 // import { useI18n } from 'vue-i18n'
@@ -21,49 +20,15 @@ const props = defineProps({
   },
 })
 
-type windiComponent = {
-  id: string
-  html: string
-  css: string
-  likes: number,
-  username: string,
-  uploaded_at: string
-}
-
-const supabaseUrl = 'https://azrzntdriayvwuqzxvth.supabase.co'
-const supabaseKey = ""
-const supabase = createClient(supabaseUrl, supabaseKey)
-const componentsArray = ref<windiComponent[]>([])
 onMounted(async () => {
-  const { data, error } = await supabase
-    .from('components')
-    .select('*')
-    .order('likes', { ascending: false })
-  if (error) console.error(error)
-  data?.forEach((component: windiComponent) => {
-    console.log(data)
-    componentsArray.value.push(component)
-  })
+  await fetchComponents()
 })
-
-// INSERT NEW ENTRY
-// const { data, error } = await supabase
-//   .from('components')
-//   .insert([
-//     { some_column: 'someValue', other_column: 'otherValue' },
-//   ])
-
-// UPDATE ROW (LIKES)
-// const { data, error } = await supabase
-//   .from('components')
-//   .update({ other_column: 'otherValue' })
-//   .eq('some_column', 'someValue')
 </script>
 
 <template>
   <div class="grid gap-5 grid-cols-4 +sm:grid-cols-1 +md:grid-cols-2 +lg:grid-cols-3">
     <div
-      v-for="component in componentsArray"
+      v-for="component in allComponents"
       :key="component.id"
       class="rounded flex flex-col bg-gray-400 h-350px w-350px items-center justify-center"
     >
