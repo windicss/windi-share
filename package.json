@@ -7,13 +7,15 @@
     "preview-https": "serve dist"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^1.7.6",
     "@vueuse/core": "^4.6.3",
     "@vueuse/head": "^0.5.1",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.2",
     "vue": "^3.0.10",
     "vue-i18n": "^9.0.0",
-    "vue-router": "^4.0.5"
+    "vue-router": "^4.0.5",
+    "vue-supabase": "^1.0.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.6.2",

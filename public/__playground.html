@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 4px;
+    }
+
+    #container {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+  <div id="container">
+    Preview
+  </div>
+  <script>
+    let styleEl, fixedStyleEl
+    const container = document.getElementById('container')
+
+    window.addEventListener('message', (e) => {
+      const {
+        css,
+        fixedCss,
+        classes,
+        html,
+      } = JSON.parse(e.data)
+
+      // console.log({
+      //   css,
+      //   fixedCss,
+      //   classes,
+      // })
+
+      if (css != null) {
+        if (styleEl)
+          document.body.removeChild(styleEl)
+        styleEl = document.createElement('style')
+        styleEl.innerHTML = css
+        document.body.appendChild(styleEl)
+      }
+
+      if (fixedCss != null) {
+        if (fixedStyleEl)
+          document.body.removeChild(fixedStyleEl)
+        fixedStyleEl = document.createElement('style')
+        fixedStyleEl.innerHTML = fixedCss
+        document.body.appendChild(fixedStyleEl)
+      }
+
+      if (classes != null)
+        container.className = classes
+      if (html != null)
+        container.innerHTML = html
+    }, false)
+  </script>
+</body>
+
+</html>
