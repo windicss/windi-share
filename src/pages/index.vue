@@ -3,6 +3,7 @@ import { defineProps, ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import type { Config } from 'windicss/types/interfaces'
 import { userSession, useWindiCSS, fetchComponents, allComponents } from '~/logic'
+import { IframePreview } from "@windicss/shared-components";
 
 // import { useI18n } from 'vue-i18n'
 // const { t } = useI18n()
@@ -39,10 +40,11 @@ onMounted(async () => {
           style="flex: 4;"
           class="flex h-full w-full p-2 justify-center items-center"
         >
-          <Iframe
-            class="h-full w-full"
+          <IframePreview
+            class="w-full h-full"
             :html="component.html"
-            :css="useWindiCSS(ref(component.html), ref(component.css), props.config).generatedCSS"
+            :css="useWindiCSS(ref(component.html), ref(component.css), props.config).generatedCSS.value"
+            :dark="false"
           />
         </div>
         <div
@@ -79,3 +81,12 @@ onMounted(async () => {
     </ClientOnly>
   </div>
 </template>
+
+<style>
+.preview-container,
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
