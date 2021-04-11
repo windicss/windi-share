@@ -38,6 +38,7 @@ async function handleLogout() {
     console.error('Error', err)
   }
 }
+
 type windiComponent = {
   id: string
   html: string
@@ -49,6 +50,7 @@ type windiComponent = {
   banned: boolean
 }
 const allComponents = ref<windiComponent[]>([])
+
 /**
  * Retreive all components
  */
@@ -58,7 +60,7 @@ async function fetchComponents() {
       .from('components')
       .select('*')
       .neq('banned', true)
-      .order('likes')
+      .order('likes', { ascending: false })
 
 
     if (error) {
@@ -77,6 +79,47 @@ async function fetchComponents() {
     console.error('Error retrieving data from db', err)
   }
 }
+
+/**
+ * Retrieve one component by ID
+ */
+ async function fetchComponent(uid: string): Promise<windiComponent | undefined > {
+  try {
+    const { data: component, error } = await supabase
+      .from('components')
+      .select('*')
+      .neq('banned', true)
+      .eq('id', uid)
+
+
+    if (error) {
+      console.log('error', error)
+      return
+    }
+
+    console.log('get component!', component)
+    if (component && component[0]) {
+      return component[0]!
+    } else {
+      return
+    }
+  } catch (err) {
+    console.error('Error retrieving data from db', err)
+  }
+}
+
+
+type windiLike = {
+  id: string
+  component_id: string
+  user_id: string
+  liked_at: string,
+}
+const allLikes = ref<windiLike[]>([])
+/**
+ * Retreive like amount
+ */
+// TODO: integrate API Call
 
 /**
  *  Add a new component to supabase
@@ -109,5 +152,7 @@ export {
   handleLogout,
   fetchComponents,
   allComponents,
-  addComponent
+  addComponent,
+  fetchComponent,
+  windiComponent
 }

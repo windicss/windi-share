@@ -35,7 +35,7 @@ const {
 </script>
 
 <template>
-  <div class="min-h-screen w-full text-left">
+  <div class="min-h-screen text-left w-full">
     <div v-if="userSession !== null" class="flex mb-2 w-full items-center justify-center">
       <button
         v-if="userSession && userSession.user && userSession.user.id != undefined"
@@ -51,7 +51,7 @@ const {
           <Pane min-size="20" size="66">
             <Splitpanes :horizontal="true">
               <Pane min-size="20">
-                <div class="block-bg relative w-full h-full">
+                <div class="h-full w-full block-bg relative">
                   <div class="block-code">
                     <Editor
                       v-model="htmlCode"
@@ -61,14 +61,14 @@ const {
                     />
                   </div>
                   <div class="block-title">
-                    <div class="w-full flex justify-between items-center">
+                    <div class="flex w-full justify-between items-center">
                       <span>Template</span>
                     </div>
                   </div>
                 </div>
               </Pane>
               <Pane min-size="20">
-                <div class="block-bg relative w-full h-full">
+                <div class="h-full w-full block-bg relative">
                   <div class="block-code">
                     <Editor
                       v-model="styleCode"
@@ -78,7 +78,7 @@ const {
                     />
                   </div>
                   <div class="block-title">
-                    <div class="w-full flex justify-between items-center">
+                    <div class="flex w-full justify-between items-center">
                       <span>Style</span>
                     </div>
                   </div>
@@ -89,7 +89,7 @@ const {
           <Pane min-size="20" size="33">
             <div class="h-full">
               <IframePreview
-                class="w-full h-full"
+                class="h-full w-full"
                 :html="htmlCode"
                 :css="generatedCSS"
                 :dark="false"
