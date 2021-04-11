@@ -2,7 +2,7 @@
 
 </script>
 <template>
-  <main class="text-center py-10 px-4 text-gray-700 dark:text-gray-200">
+  <main class="m-auto max-w-[85em] py-10 px-6 lg:px-2">
     <Header />
     <router-view />
     <Footer />
