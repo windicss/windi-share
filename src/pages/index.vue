@@ -17,6 +17,7 @@ const props = defineProps({
 onMounted(async () => {
   await fetchComponents()
 })
+
 </script>
 
 <template>
@@ -28,20 +29,19 @@ onMounted(async () => {
       <mdi-code-braces-box />Open editor
     </router-link>
   </div>
-  <div class="grid gap-5 grid-cols-4 +sm:grid-cols-1 +md:grid-cols-2 +lg:grid-cols-3">
+  <div class="grid gap-5 grid-cols-3">
     <ClientOnly>
       <div
         v-for="component in allComponents"
         :key="component.id"
-        class="rounded flex flex-col bg-gray-400 h-350px w-350px items-center justify-center"
+        class="flex flex-col bg-opacity-10 bg-gray-400 rounded-2xl min-h-430px items-center justify-center"
       >
         <div
           id="upperpart"
           style="flex: 4;"
-          class="flex h-full w-full p-2 justify-center items-center"
+          class="flex h-full w-full p-4 justify-center items-center overflow-hidden"
         >
           <IframePreview
-            class="w-full h-full"
             :html="component.html"
             :css="useWindiCSS(ref(component.html), ref(component.css), props.config).generatedCSS.value"
             :dark="false"
@@ -49,28 +49,43 @@ onMounted(async () => {
         </div>
         <div
           id="lowerpart"
-          class="flex-grow bg-gray-300 flex-1 p-2 place-self-stretch self-stretch justify-self-stretch"
+          class="rounded-lg flex-grow bg-gray-400 bg-opacity-10 flex-1 m-2 px-3 pt-1 pb-2 place-self-stretch self-stretch justify-self-stretch"
         >
-          <div>
-            uploaded by
-            <span class="text-gray-500">{{ component.user_name }}</span>
-            at
-            <span class="text-gray-500">
-              {{
-                new Date(component.added_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' })
-              }}
-            </span>
+          <div class="flex flex-col text-sm">
+            <span class="text-sm text-center text-true-gray-400">{{ component.id }}</span>
+            <div class="flex flex-row justify-between">
+              <div class="flex flex-row gap-1 items-center justify-start">
+                <mdi:account class="text-true-gray-600" />
+                <span class="text-true-gray-900">{{ component.user_name }}</span>
+              </div>
+              <div class="flex flex-row gap-1 items-center justify-start">
+                <mdi:calendar-clock class="text-true-gray-600" />
+                <span class="text-true-gray-900">
+                  {{
+                    new Date(component.added_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' })
+                  }}
+                </span>
+              </div>
+            </div>
           </div>
+
           <div class="flex mt-2 gap-2">
-            <button
-              :disabled="(component.user_id !== userSession?.user.id)"
-              class="rounded flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
+            <a
+              v-if="(component.user_id !== userSession?.user.id)"
+              class="rounded-md flex bg-gray-100 flex-1 shadow py-2 ring-gray-600 items-center justify-center select-none disabled:cursor-not-allowed disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
+              :href="'/editor/' + component.id"
+            >
+              <mdi:code-tags class="mr-2" />Open code
+            </a>
+            <a
+              v-else
+              class="rounded-md flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:cursor-not-allowed disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
             >
               <mdi:puzzle-edit class="mr-2" />Edit
-            </button>
+            </a>
             <button
               :disabled="(userSession == null)"
-              class="rounded flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
+              class="rounded-md flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:cursor-not-allowed disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
             >
               <ri:heart-2-fill class="mr-2 text-red-600" />
               {{ component.likes }}
