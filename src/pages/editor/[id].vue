@@ -8,6 +8,7 @@ const props = defineProps({
   },
 })
 </script>
-<h1>
-  {{props.id}}
-</h1>
+
+<template>
+  <h1>{{ props.id }}</h1>
+</template>
