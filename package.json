@@ -10,7 +10,7 @@
     "@supabase/supabase-js": "^1.9.0",
     "@vueuse/core": "^4.6.3",
     "@vueuse/head": "^0.5.1",
-    "@windicss/shared-components": "^0.1.0",
+    "@windicss/shared-components": "^0.1.2",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.2",
     "splitpanes": "^3.0.4",
