@@ -1,6 +1,6 @@
+import { Provider, Session } from '@supabase/gotrue-js/dist/main/lib/types'
 import { createClient } from '@supabase/supabase-js'
 import { ref } from 'vue'
-import { Session, Provider } from '@supabase/gotrue-js/dist/main/lib/types'
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL as string,
   import.meta.env.VITE_SUPABASE_KEY as string
@@ -46,33 +46,42 @@ type windiComponent = {
   user_name: string,
   user_id: string,
   added_at: string,
-  likes: number,
+  stars: number,
   banned: boolean
 }
 const allComponents = ref<windiComponent[]>([])
+
 
 /**
  * Retreive all components
  */
 async function fetchComponents() {
+// TODO: add pagination
   try {
     const { data: components, error } = await supabase
       .from('components')
       .select('*')
       .neq('banned', true)
-      .order('likes', { ascending: false })
-
 
     if (error) {
       console.log('error', error)
       return
     }
-    // handle for when no todos are returned
     if (components === null) {
       allComponents.value = []
       return
     }
-    // store response to allTodos
+    for (const component of components) {
+      const { data, count } = await supabase
+        .from('stars')
+        .select('*', { count: 'exact' })
+        .eq("component_id", component.id)
+        let _ = data
+        component.stars = count
+    }
+    components.sort((a,b) =>  {
+      return b.stars - a.stars
+    })
     allComponents.value = components
     console.log('got todos!', allComponents.value)
   } catch (err) {
@@ -107,19 +116,6 @@ async function fetchComponents() {
     console.error('Error retrieving data from db', err)
   }
 }
-
-
-type windiLike = {
-  id: string
-  component_id: string
-  user_id: string
-  liked_at: string,
-}
-const allLikes = ref<windiLike[]>([])
-/**
- * Retreive like amount
- */
-// TODO: integrate API Call
 
 /**
  *  Add a new component to supabase

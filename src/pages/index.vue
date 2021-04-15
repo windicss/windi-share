@@ -87,8 +87,8 @@ onMounted(async () => {
               :disabled="(userSession == null)"
               class="rounded-md flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:cursor-not-allowed disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
             >
-              <ri:heart-2-fill class="mr-2 text-red-600" />
-              {{ component.likes }}
+              <mdi:star class="mr-2 text-red-600" />
+              {{ component.stars }}
             </button>
           </div>
         </div>
