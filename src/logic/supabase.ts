@@ -160,6 +160,7 @@ async function addStar(componentId: string | undefined, userId: string | undefin
     }
 
     console.log('created a new star')
+    fetchStars(userId)
     return data
   } catch (err) {
     // alert('Error')
