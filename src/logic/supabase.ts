@@ -13,9 +13,8 @@ const userSession = ref<Session | null>(null)
  * https://supabase.io/docs/guides/auth#third-party-logins
  */
 async function handleOAuthLogin(provider: Provider) {
-  const {session, error } = await supabase.auth.signIn({ provider })
+  const { error } = await supabase.auth.signIn({ provider })
   if (error) console.error('Error: ', error.message)
-  if(session) await fetchStars(session.user.id)
 }
 
 
@@ -179,7 +178,7 @@ const myStars = ref<windiStar[]>([])
 /**
  * Get my stars
  */
- async function fetchStars(userId: string | undefined): Promise<windiComponent | undefined > {
+ async function fetchStars(userId: string | undefined) {
   try {
     if (!userId) return
     const { data: stars, error } = await supabase
@@ -196,7 +195,7 @@ const myStars = ref<windiStar[]>([])
       return
     }
     myStars.value = stars
-    console.log('got todos!', myStars.value)
+    console.log('got stars!', myStars.value)
   } catch (err) {
     // alert('Error')
     console.error('Unknown problem', err)

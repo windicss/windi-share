@@ -2,7 +2,7 @@ import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'layouts-generated'
 import App from './App.vue'
-import { supabase, userSession } from '~/logic'
+import { supabase, userSession, fetchStars } from '~/logic'
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 import './styles/main.css'
@@ -27,4 +27,5 @@ supabase.auth.onAuthStateChange((event, session) => {
     window.location.replace("/")
   }
   userSession.value = session
+  fetchStars(session?.user.id)
 })
