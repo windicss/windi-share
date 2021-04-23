@@ -13,8 +13,9 @@ const userSession = ref<Session | null>(null)
  * https://supabase.io/docs/guides/auth#third-party-logins
  */
 async function handleOAuthLogin(provider: Provider) {
-  const { error } = await supabase.auth.signIn({ provider })
+  const {session, error } = await supabase.auth.signIn({ provider })
   if (error) console.error('Error: ', error.message)
+  if(session) await fetchStars(session.user.id)
 }
 
 
@@ -50,7 +51,6 @@ type windiComponent = {
   banned: boolean
 }
 const allComponents = ref<windiComponent[]>([])
-
 
 /**
  * Retreive all components
@@ -142,6 +142,68 @@ async function addComponent(component: windiComponent): Promise<null | windiComp
   }
 }
 
+/**
+ * Add a new star
+ */
+async function addStar(componentId: string | undefined, userId: string | undefined): Promise<boolean> {
+  try {
+    if (!componentId) return false
+    if (!userId) return false
+    const { data, error } = await supabase
+      .from('stars')
+      .insert({component_id: componentId, user_id:userId})
+      .single()
+
+    if (error) {
+      // alert(error.message)
+      console.error('There was an error inserting', error)
+      return false
+    }
+
+    console.log('created a new star')
+    return data
+  } catch (err) {
+    // alert('Error')
+    console.error('Unknown problem inserting to db', err)
+    return false
+  }
+}
+
+type windiStar = {
+  id: string
+  component_id: string
+  user_id: string
+  liked_at: string
+}
+const myStars = ref<windiStar[]>([])
+/**
+ * Get my stars
+ */
+ async function fetchStars(userId: string | undefined): Promise<windiComponent | undefined > {
+  try {
+    if (!userId) return
+    const { data: stars, error } = await supabase
+    .from('stars')
+    .select('*')
+    .eq('user_id', userId)
+
+    if (error) {
+      console.log('error', error)
+      return
+    }
+    if (stars === null) {
+      myStars.value = []
+      return
+    }
+    myStars.value = stars
+    console.log('got todos!', myStars.value)
+  } catch (err) {
+    // alert('Error')
+    console.error('Unknown problem', err)
+    return
+  }
+}
+
 export {
   userSession,
   handleOAuthLogin,
@@ -149,6 +211,9 @@ export {
   fetchComponents,
   allComponents,
   addComponent,
+  addStar,
+  myStars,
+  fetchStars,
   fetchComponent,
   windiComponent
 }

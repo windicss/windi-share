@@ -2,7 +2,7 @@
 import { defineProps, ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import type { Config } from 'windicss/types/interfaces'
-import { userSession, useWindiCSS, fetchComponents, allComponents } from '~/logic'
+import { userSession, useWindiCSS, fetchComponents, allComponents, addStar, myStars } from '~/logic'
 import { IframePreview } from "@windicss/shared-components";
 
 // import { useI18n } from 'vue-i18n'
@@ -71,21 +71,20 @@ onMounted(async () => {
 
           <div class="flex mt-2 gap-2">
             <a
-              v-if="(component.user_id !== userSession?.user.id)"
               class="rounded-md flex bg-gray-100 flex-1 shadow py-2 ring-gray-600 items-center justify-center select-none disabled:cursor-not-allowed disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
               :href="'/editor/' + component.id"
             >
-              <mdi:code-tags class="mr-2" />Open code
-            </a>
-            <a
-              v-else
-              class="rounded-md flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:cursor-not-allowed disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
-            >
-              <mdi:puzzle-edit class="mr-2" />Edit
+              <template v-if="(component.user_id !== userSession?.user.id)">
+                <mdi:code-tags class="mr-2" />Open code
+              </template>
+              <template v-else>
+                <mdi:puzzle-edit class="mr-2" />Edit
+              </template>
             </a>
             <button
-              :disabled="(userSession == null)"
+              :disabled="(userSession == null || myStars.findIndex(t => t.component_id == component.id) == -1)"
               class="rounded-md flex bg-gray-200 flex-1 py-2 ring-gray-600 items-center justify-center select-none disabled:cursor-not-allowed disabled:opacity-60 not-disabled:hover:bg-gray-300 not-disabled:hover:ring"
+              @click="(_) => addStar(component.id, userSession?.user.id)"
             >
               <mdi:star class="mr-2 text-yellow-600" />
               {{ component.stars }}
