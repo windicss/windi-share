@@ -36,8 +36,8 @@ const {
 </script>
 
 <template>
-  <div class="playground">
-    <ClientOnly>
+  <ClientOnly>
+    <div class="playground">
       <Splitpanes :horizontal="false" class="h-full w-full default-theme">
         <Pane min-size="20" size="66">
           <Splitpanes :horizontal="true">
@@ -78,8 +78,8 @@ const {
           </div>
         </Pane>
       </Splitpanes>
-    </ClientOnly>
-  </div>
+    </div>
+  </ClientOnly>
 </template>
 <style>
 .playground {
