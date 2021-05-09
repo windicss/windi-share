@@ -1,7 +1,6 @@
 import { Provider, Session } from '@supabase/gotrue-js/dist/main/lib/types'
 import { createClient } from '@supabase/supabase-js'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL as string,
   import.meta.env.VITE_SUPABASE_KEY as string
@@ -134,8 +133,7 @@ async function addComponent(component: windiComponent): Promise<null | windiComp
     }
 
     console.log('created a new component')
-    const router = useRouter()
-    router.push(`/`)
+    alert("component added, find it on the main page")
     return data
   } catch (err) {
     alert('Error')
