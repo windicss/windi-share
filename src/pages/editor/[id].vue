@@ -18,9 +18,9 @@ const props = defineProps({
     type: Object as PropType<Config>,
   },
 })
-let loadedComponent = ref({} as windiComponent)
-let htmlCode = ref("")
-let styleCode = ref("")
+const loadedComponent = ref<windiComponent>({})
+const htmlCode = ref("")
+const styleCode = ref("")
 onMounted(async () => {
   let tmp = await fetchComponent(props.id)
   if (tmp) {
