@@ -43,7 +43,7 @@ onMounted(async () => {
       <mdi-code-braces-box />Open editor
     </router-link>
   </div>
-  <div class="mb-2 text-right">
+  <div class="mb-2 text-right text-gray-600">
     <label>
       <input type="radio" name="order" value="added_at" v-model="pickedOrder" />
       by date
@@ -53,8 +53,12 @@ onMounted(async () => {
       by stars
     </label>
   </div>
-  <div class="grid gap-5 grid-cols-3">
-    <ClientOnly>
+  <div v-if="sortedComponent.length < 1" class="w-full h-85vh grid place-content-center">
+    <ant-design:loading-3-quarters-outlined class="animate-spin" />
+    <span>Loading</span>
+  </div>
+  <ClientOnly>
+    <div class="grid gap-5 grid-cols-3">
       <div
         v-for="component in sortedComponent"
         class="flex flex-col bg-opacity-10 bg-gray-400 rounded-2xl min-h-430px items-center justify-center"
@@ -116,8 +120,8 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-    </ClientOnly>
-  </div>
+    </div>
+  </ClientOnly>
 </template>
 
 <style>
