@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, ref, onMounted } from 'vue'
+import { defineProps, ref, onMounted, computed } from 'vue'
 import type { PropType } from 'vue'
 import type { Config } from 'windicss/types/interfaces'
 import { userSession, useWindiCSS, fetchComponents, allComponents, addStar, myStars, fetchStars } from '~/logic'
@@ -14,6 +14,14 @@ const props = defineProps({
   },
 })
 
+let pickedOrder = ref("stars")
+let sortedComponent = computed(() => allComponents.value.sort((a, b) => {
+  if (pickedOrder.value == "stars") {
+    b.stars - a.stars
+  } else {
+    return b.added_at.localeCompare(a.added_at)
+  }
+}))
 onMounted(async () => {
   // if (userSession.value?.user.id) {
   //   await fetchStars(userSession.value?.user.id)
@@ -32,10 +40,20 @@ onMounted(async () => {
       <mdi-code-braces-box />Open editor
     </router-link>
   </div>
+  <div class="mb-2 text-right">
+    <label>
+      <input type="radio" name="order" value="added_at" v-model="pickedOrder" />
+      by date
+    </label>
+    <label>
+      <input type="radio" name="order" value="stars" v-model="pickedOrder" />
+      by stars
+    </label>
+  </div>
   <div class="grid gap-5 grid-cols-3">
     <ClientOnly>
       <div
-        v-for="component in allComponents"
+        v-for="component in sortedComponent"
         :key="component.id"
         class="flex flex-col bg-opacity-10 bg-gray-400 rounded-2xl min-h-430px items-center justify-center"
       >
