@@ -16,10 +16,13 @@ const props = defineProps({
 
 let pickedOrder = ref("stars")
 let sortedComponent = computed(() => allComponents.value.sort((a, b) => {
-  if (pickedOrder.value == "stars") {
-    b.stars - a.stars
-  } else {
+  if (pickedOrder.value == "added_at") {
     return b.added_at.localeCompare(a.added_at)
+  } else {
+    if (b.stars === a.stars) {
+      return b.added_at.localeCompare(a.added_at)
+    }
+    return b.stars - a.stars
   }
 }))
 onMounted(async () => {
@@ -54,7 +57,6 @@ onMounted(async () => {
     <ClientOnly>
       <div
         v-for="component in sortedComponent"
-        :key="component.id"
         class="flex flex-col bg-opacity-10 bg-gray-400 rounded-2xl min-h-430px items-center justify-center"
       >
         <div
